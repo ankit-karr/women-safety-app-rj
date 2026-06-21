@@ -1,0 +1,61 @@
+<!-- Root Android manifest file for the app. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Allows app to access internet for backend APIs and WebSocket. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Allows app to vibrate phone during SOS and alerts. -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Allows app to use camera for emergency photo capture. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Allows app to record emergency voice during SOS. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Allows app to get accurate GPS location. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Allows app to get approximate location. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Allows app to send SMS directly using phone SIM. -->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <!-- Allows app to show notifications on Android 13 and above. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Main application configuration. -->
+    <application
+      android:name=".MainApplication"
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:allowBackup="false"
+      android:theme="@style/AppTheme"
+      android:usesCleartextTraffic="true"
+      android:supportsRtl="true">
+
+      <!-- Main activity of the React Native Android app. -->
+      <activity
+        android:name=".MainActivity"
+        android:label="@string/app_name"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+        android:launchMode="singleTask"
+        android:windowSoftInputMode="adjustResize"
+        android:exported="true">
+
+        <!-- Makes this activity the launcher entry point of the app. -->
+        <intent-filter>
+            <!-- Marks this activity as the main app entry activity. -->
+            <action android:name="android.intent.action.MAIN" />
+
+            <!-- Shows this app in the device launcher/app drawer. -->
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
+      </activity>
+
+    </application>
+
+</manifest>
