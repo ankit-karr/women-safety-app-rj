@@ -517,6 +517,15 @@ export default function HomeScreen() {
     }
   };
 
+  // Waits before starting the next native module so Android can release camera/microphone resources.
+  const wait = (ms: number): Promise<void> => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
+    });
+  };
+
   // Captures emergency photos safely and returns empty array on failure.
   const captureDangerImagesSafely = async (): Promise<DangerImage[]> => {
     try {
@@ -612,27 +621,29 @@ export default function HomeScreen() {
         return;
       }
 
-      // Starts emergency vibration before sending SOS.
+      // Starts emergency vibration before capturing SOS evidence.
       startEmergencyVibration();
 
-// First record full emergency audio.
-// Nothing else will run until this recording is completed.
-setStatus(
-  `Recording emergency voice for ${DANGER_AUDIO_RECORD_SECONDS} seconds...\nOther SOS actions will start after voice recording finishes.`,
-);
+      // First capture emergency photos.
+      // This is done before audio to avoid Android camera/microphone resource conflict.
+      setStatus('Starting SOS evidence capture...\nCapturing emergency photos first...');
 
-const dangerAudio = await captureDangerAudioSafely();
+      // Captures back and front camera emergency photos safely.
+      const dangerImages = await captureDangerImagesSafely();
 
-// After audio recording is fully completed, start vibration.
-startEmergencyVibration();
+      // Gives CameraX time to fully release camera resources before starting microphone recording.
+      await wait(800);
 
-// Now capture emergency photos.
-const dangerImages = await captureDangerImagesSafely();
+      // Now record emergency voice after camera capture is fully completed.
+      const dangerAudio = await captureDangerAudioSafely();
 
-// Now get current GPS location.
-setStatus('Getting current location...');
+      // Gives MediaRecorder time to fully release microphone resources before continuing.
+      await wait(300);
 
-const currentLocation = await getCurrentLocation();
+      // Now get current GPS location.
+      setStatus('Getting current location...');
+
+      const currentLocation = await getCurrentLocation();
 
       // Converts latitude to string for backend payload.
       const latitude = String(currentLocation.latitude);

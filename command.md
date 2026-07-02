@@ -24,7 +24,7 @@ Copy the device ID from the output.
 Run:
 
 ```bash
-adb -s RZ8R91TCBLP reverse tcp:8000 tcp:8000
+adb -s 3C159K002PK00000 reverse tcp:8000 tcp:8000
 ```
 
 This allows the Android device to access the backend running locally on port **8000**.
