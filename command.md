@@ -97,3 +97,4 @@ npx react-native run-android
 * Verify that the device appears as `device` when running `adb devices`.
 * Ensure the backend server is running on port `8000` before launching the application.
 * Update the port number in the `adb reverse` command if your backend uses a different port.
+ankit

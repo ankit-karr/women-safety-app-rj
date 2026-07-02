@@ -75,3 +75,5 @@ cd C:\Users\viree\Downloads\WomenSafetyAppStable
 npx react-native run-android
 
 C:\Users\viree\Downloads\women-safety-app-rj\android\build.gradle === on this file have ndk variable this value should be match based on you laptop ndk version
+
+<!-- ankit -->
